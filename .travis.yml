@@ -1,6 +1,5 @@
 language: generic
 sudo: required
-osx_image: xcode9.4
 os:
   - linux
   - osx
@@ -17,11 +16,14 @@ env:
     - TVOS_SDK="appletvsimulator11.3"
     - MACOS_SDK="macosx10.13"
 
-  matrix:
-    include:
-    - SDK: $IOS_SDK      
-      DESTINATION: platform=iOS Simulator,name=iPhone 8,OS=11.3
-      os: osx
+matrix:
+  include:
+  - env: DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.3"    SDK="$IOS_SDK"
+    os: "osx"
+  - env: DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.3"    SDK="$IOS_SDK"
+    os: "osx"
+  - env: DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.3"    SDK="$IOS_SDK"
+    os: "osx"
 
 before_install:
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
