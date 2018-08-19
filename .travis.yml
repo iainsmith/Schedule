@@ -21,9 +21,9 @@ matrix:
   include:
   - env: DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.3"    SDK="$IOS_SDK"
     os: osx
-  - env: DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.3"    SDK="$IOS_SDK"
+  - env: DESTINATION="arch=x86_64"    SDK="$MACOS_SDK"
     os: osx
-  - env: DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.3"    SDK="$IOS_SDK"
+  - env: DESTINATION="OS=11.3,name=Apple TV 4K"    SDK="$TVOS_SDK"
     os: osx
   - env: LINUX=1
     os: linux
