@@ -19,19 +19,16 @@ env:
 
   matrix:
     include:
-      - SDK: "$IOS_SDK"
-        DESTINATION: "platform=iOS Simulator,name=iPhone 8,OS=11.3"
-        os: "osx"
-      - SDK: "$MACOS_SDK"
-        DESTINATION: "arch=x86_64"                                    
-        os: "osx"
+      - SDK="$IOS_SDK"      DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.3    os="osx"
+      - SDK="$MACOS_SDK"    DESTINATION="arch=x86_64"                                    os="osx"
+      - SDK="$TVOS_SDK"     DESTINATION="OS=11.3,name=Apple TV 4K"                       os="osx"
 
 before_install:
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
 
 script:
   - xcodebuild clean build test -project "$PROJECT" -scheme "$SCHEME" -sdk "$SDK" -destination "$DESTINATION" -configuration Debug -enableCodeCoverage YES CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO | xcpretty -c
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then swift test; fi
+  # - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then swift test; fi
 
 after_success:
   - bash <(curl -s https://codecov.io/bash) -J 'Schedule'
