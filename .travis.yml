@@ -1,9 +1,13 @@
 language: objective-c
 sudo: required
 osx_image: xcode9.4
+os:
+  - linux
+  - osx
 branches:
   only:
     - master
+    - linux-ci
 env:
   global:
     - PROJECT="Schedule.xcodeproj"
@@ -14,9 +18,9 @@ env:
     - MACOS_SDK="macosx10.13"
 
   matrix:
-    - SDK="$IOS_SDK"      DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.3"
-    - SDK="$MACOS_SDK"    DESTINATION="arch=x86_64"
-    - SDK="$TVOS_SDK"     DESTINATION="OS=11.3,name=Apple TV 4K"
+    - SDK="$IOS_SDK"      DESTINATION="platform=iOS Simulator,name=iPhone 8,OS=11.3    os="osx"
+    - SDK="$MACOS_SDK"    DESTINATION="arch=x86_64"                                    os="osx"
+    - SDK="$TVOS_SDK"     DESTINATION="OS=11.3,name=Apple TV 4K"                       os="osx"
 
 before_install:
   - gem install xcpretty --no-rdoc --no-ri --no-document --quiet
@@ -27,3 +31,19 @@ script:
 after_success:
   - bash <(curl -s https://codecov.io/bash) -J 'Schedule'
   - sleep 5
+
+  language: generic
+sudo: required
+dist: trusty
+osx_image: xcode9
+os:
+  - linux
+  - osx
+env:
+  - SWIFT_VERSION=4.0
+  - SWIFT_VERSION=4.1
+install:
+  - eval "$(curl -sL https://swiftenv.fuller.li/en/latest/install.sh)"
+script:
+  - set -o pipefail
+  - swift test --filter TravisClientTests.JSONTests
